@@ -14,7 +14,7 @@ function xdot = f(x)
 %   Copyright @ Hybrid Systems Laboratory (HSL),
 %   Revision: 0.0.0.3 Date: 05/20/2015 3:42:00
 
-    global mu sigmaS sigmaM
+    global mu sigmaS sigmaM H flag
 
     %e =      [x(1);  x(2);  x(3);  x(4);  x(5)];
     u =      [x(6);  x(7);  x(8);  x(9);  x(10)];
@@ -27,10 +27,10 @@ function xdot = f(x)
     %tau = x(41);
 
     sigma0 =  [sigmaM(1) + (sigmaM(2)-sigmaM(1))*rand(1);...
-           sigmaM(1) + (sigmaM(2)-sigmaM(1))*rand(1);...
-           sigmaM(1) + (sigmaM(2)-sigmaM(1))*rand(1);...
-           sigmaM(1) + (sigmaM(2)-sigmaM(1))*rand(1);...
-           sigmaM(1) + (sigmaM(2)-sigmaM(1))*rand(1);   ];
+               sigmaM(1) + (sigmaM(2)-sigmaM(1))*rand(1);...
+               sigmaM(1) + (sigmaM(2)-sigmaM(1))*rand(1);...
+               sigmaM(1) + (sigmaM(2)-sigmaM(1))*rand(1);...
+               sigmaM(1) + (sigmaM(2)-sigmaM(1))*rand(1);   ];
     
     % differential equations
     
@@ -41,9 +41,13 @@ function xdot = f(x)
 %     if x(21) > 20
 %         display(u);
 %     end
-    %xdot = [a + u - sigma + (sigma - sigmaS); zeros(size(u)); zeros(size(eta)); a; a_hat - (t_hat - (t_star + 0.1*rand(5,1))); zeros(size(a)); -mu*(t_hat - (t_star + 0.1*rand(5,1))); zeros(size(sigma)); -1; a + u];
-    xdot = [a + u - sigma + (sigma - sigmaS); zeros(size(u)); zeros(size(eta)); a; a_hat - (t_hat - t_star); zeros(size(a)); -mu*(t_hat - t_star); zeros(size(sigma)); -1; a + u];
-    %xdot = [a + u - sigma + (sigma - (sigmaS + sigma0)); zeros(size(u)); zeros(size(eta)); a; a_hat - (t_hat - t_star); zeros(size(a)); -mu*(t_hat - t_star); zeros(size(sigma)); -1; a + u];
+    %
+    if (flag == 0) || (flag == 1)
+        xdot = [a + u - sigma + (sigma - sigmaS); zeros(size(u)); H*eta; a; a_hat - (t_hat - t_star); zeros(size(a)); -mu*(t_hat - t_star); zeros(size(sigma)); -1; a + u];
+    elseif flag == 2
+        xdot = [a + u - sigma + (sigma - sigmaS); zeros(size(u)); zeros(size(eta)); a; a_hat - (t_hat - (t_star + 0.1*rand(5,1))); zeros(size(a)); -mu*(t_hat - (t_star + 0.1*rand(5,1))); zeros(size(sigma)); -1; a + u];
+    end
+        %xdot = [a + u - sigma + (sigma - (sigmaS + sigma0)); zeros(size(u)); zeros(size(eta)); a; a_hat - (t_hat - t_star); zeros(size(a)); -mu*(t_hat - t_star); zeros(size(sigma)); -1; a + u];
     %xdot = [a + u; zeros(size(u)); zeros(size(eta)); a; a_hat - (t_hat - t_star); zeros(size(a)); -mu*(t_hat - t_star); zeros(size(sigma)); -1];
     
 end

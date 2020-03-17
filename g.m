@@ -16,7 +16,7 @@ function xplus = g(x)
 
     % state
     %x0 = [tauP0; tauO0; tauT0; tauM0; tauS0; q0; M_m0; M_s0; p0];
-    global K v N G L flag mag
+    global K v N L flag mag
 
     e =      [x(1);  x(2);  x(3);  x(4);  x(5)];
     u =      [x(6);  x(7);  x(8);  x(9);  x(10)];
