@@ -35,19 +35,13 @@ function xdot = f(x)
     % differential equations
     
     
-    %xdot = [a + eta; zeros(12,1); -1; zeros(4,1);];
-    %xdot = [a + eta - a; zeros(12,1); -1; hat_a - ;];
-    %xdot = [-a_hat - (tau_hat - tau); -a; 0; 2*(tau_hat - tau);];
-%     if x(21) > 20
-%         display(u);
-%     end
-    %
     if (flag == 0) || (flag == 1)
         xdot = [a + u - sigma + (sigma - sigmaS); zeros(size(u)); H*eta; a; a_hat - (t_hat - t_star); zeros(size(a)); -mu*(t_hat - t_star); zeros(size(sigma)); -1; a + u];
     elseif flag == 2
+        %xdot = [a + u - sigma + (sigma - (sigmaS + sigma0)); zeros(size(u)); zeros(size(eta)); a; a_hat - (t_hat - t_star); zeros(size(a)); -mu*(t_hat - t_star); zeros(size(sigma)); -1; a + u];
+        xdot = [a + u - sigma + (sigma - sigma0); zeros(size(u)); zeros(size(eta)); a; a_hat - (t_hat - t_star); zeros(size(a)); -mu*(t_hat - t_star); zeros(size(sigma)); -1; a + u];
+    elseif flag == 3
         xdot = [a + u - sigma + (sigma - sigmaS); zeros(size(u)); zeros(size(eta)); a; a_hat - (t_hat - (t_star + 0.1*rand(5,1))); zeros(size(a)); -mu*(t_hat - (t_star + 0.1*rand(5,1))); zeros(size(sigma)); -1; a + u];
     end
-        %xdot = [a + u - sigma + (sigma - (sigmaS + sigma0)); zeros(size(u)); zeros(size(eta)); a; a_hat - (t_hat - t_star); zeros(size(a)); -mu*(t_hat - t_star); zeros(size(sigma)); -1; a + u];
-    %xdot = [a + u; zeros(size(u)); zeros(size(eta)); a; a_hat - (t_hat - t_star); zeros(size(a)); -mu*(t_hat - t_star); zeros(size(sigma)); -1];
-    
+            
 end

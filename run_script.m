@@ -17,22 +17,27 @@ close all
 global flag K v N G L mu sigmaS mag sigmaM H
 
 
+flag = 0;                                   % Flag to include noise
+                                            % Set 'flag = 1;' for
+                                            % measurement noise, set 'flag
+                                            % = 2;' for noise on the clock
+                                            % rate reference, set 'flag =
+                                            % 0;' for no noise. 
 
 % System Parameters
-K = 0.3;                                        % Controller Jump Gain
-H = -0.9;                                       % Controller Flow Gain
-v = [0.1,1];                                    % Communication Interval
-G = [0 1 1 0 1; ....                            % Adjacency matrix
+K = 0.125;                                  % Controller Jump Gain
+H = -1.3;                                   % Controller Flow Gain
+v = [0.01,0.1];                             % Communication Interval
+G = [0 1 1 0 1; ....                        % Adjacency matrix
      1 0 1 0 0; .... 
      1 0 0 1 0; ....
      0 0 1 0 1; .... 
      1 0 1 1 0];
  
-L = diag(sum(G')) - G;                          % Laplacian
-N = size(G,2);                                  % Number of Agents
-mu = 0.8;                                       % Estimator gain
-flag = 1;
-mag = 0.1;
+L = diag(sum(G')) - G;                      % Laplacian
+N = size(G,2);                              % Number of Agents
+mu = 3;                                     % Estimator gain
+mag = 1;
 sigmaS =  [1;    1;    1;    1;    1;   ];
 sigmaM = [0.85 1.15];
 
@@ -53,7 +58,7 @@ tau0 = v(1) + (v(2)-v(1))*rand(1);
 x0 = [e0; u0; eta0; t_star0; t_hat0; a0; a_hat0; sigma0; tau0; t0];
 
 % simulation horizon
-TSPAN=[0 10];
+TSPAN=[0 15];
 JSPAN = [0 800];
 
 % rule for jumps

@@ -9,6 +9,9 @@ et_bar = zeros(size(e_a));
 eta = [x(:,11) x(:,12) x(:,13) x(:,14) x(:,15)]';
 eta_bar = zeros(size(eta));
 sum_e = zeros(size(x(1,:)));
+m_avg = mean([x(end,1)-x(end,2),x(end,1)-x(end,3),x(end,1)-x(end,4),x(end,1)-x(end,5)...
+              x(end,2)-x(end,3),x(end,2)-x(end,4),x(end,2)-x(end,5),x(end,3)-x(end,4)...
+              x(end,3)-x(end,5),x(end,4)-x(end,5)]);
 
 for i = 1:length(e_a)
     ea_bar(:,i) = (T^-1)*e_a(:,i);
@@ -58,7 +61,7 @@ for i = 1:(length(j)-1)
             end
         end
     end
-    V_bound(i+1) = exp(T2*kbar/a2)*((exp(T2*kbar/a2)*(1 - k2/a2))^(j(i)))*V_0 + k2*exp((T2*kbar/a2))*norm(sqrt((a2_w/a1_w)*exp(-(betaT/2*a2_w)*(t(i))))*norm(w_bar(:,1)))^2;
+    V_bound(i+1) = exp(T2*kbar/a2)*((exp(T2*kbar/a2)*(1 - k2bar/a2))^(j(i)))*V_0 + k2bar*exp((T2*kbar/a2))*norm(sqrt((a2_w/a1_w)*exp(-(betaT/2*a2_w)*(t(i))))*norm(w_bar(:,1)))^2;
     V(i+1) = exp(2*H*x(i,41))*norm(eta_bar(1,i))^2 + z_bar_2(:,i)'*expm(Af2'*x(i,41))*P1*expm(Af2*x(i,41))*z_bar_2(:,i) + w_bar_1(:,i)'*P2*w_bar_1(:,i) + w_bar_2(:,i)'*P3*w_bar_2(:,i);
 end
 
@@ -133,25 +136,25 @@ ymax2 = max(max([x(:,26)-x(:,31) x(:,27)-x(:,32) x(:,28)-x(:,33) x(:,29)-x(:,34)
 
 figure(2)
 clf
-subplot(4,1,1), plot(t,x(:,1)-x(:,2));
+subplot(4,1,1), plot(t,x(:,1)-x(:,2),'LineWidth',1);
 hold on
-subplot(4,1,1), plot(t,x(:,1)-x(:,3));
+subplot(4,1,1), plot(t,x(:,1)-x(:,3),'LineWidth',1);
 hold on
-subplot(4,1,1), plot(t,x(:,1)-x(:,4));
+subplot(4,1,1), plot(t,x(:,1)-x(:,4),'LineWidth',1);
 hold on
-subplot(4,1,1), plot(t,x(:,1)-x(:,5));
+subplot(4,1,1), plot(t,x(:,1)-x(:,5),'LineWidth',1);
 hold on
-subplot(4,1,1), plot(t,x(:,2)-x(:,3));
+subplot(4,1,1), plot(t,x(:,2)-x(:,3),'LineWidth',1);
 hold on
-subplot(4,1,1), plot(t,x(:,2)-x(:,4));
+subplot(4,1,1), plot(t,x(:,2)-x(:,4),'LineWidth',1);
 hold on
-subplot(4,1,1), plot(t,x(:,2)-x(:,5));
+subplot(4,1,1), plot(t,x(:,2)-x(:,5),'LineWidth',1);
 hold on
-subplot(4,1,1), plot(t,x(:,3)-x(:,4));
+subplot(4,1,1), plot(t,x(:,3)-x(:,4),'LineWidth',1);
 hold on
-subplot(4,1,1), plot(t,x(:,3)-x(:,5));
+subplot(4,1,1), plot(t,x(:,3)-x(:,5),'LineWidth',1);
 hold on
-subplot(4,1,1), plot(t,x(:,4)-x(:,5));
+subplot(4,1,1), plot(t,x(:,4)-x(:,5),'LineWidth',1);
 grid on
 ylabel('$e_i - e_k$','Interpreter','latex','FontSize',30)
 grid on
@@ -159,15 +162,15 @@ set(gca,'FontSize',20)
 axis([0 t(end) ymin1 ymax1])
 h = findobj(gca,'Type','line');
 
-subplot(4,1,2), plot(t,x(:,26)-x(:,31));
+subplot(4,1,2), plot(t,x(:,26)-x(:,31),'LineWidth',1);
 hold on
-subplot(4,1,2), plot(t,x(:,27)-x(:,32));
+subplot(4,1,2), plot(t,x(:,27)-x(:,32),'LineWidth',1);
 hold on
-subplot(4,1,2), plot(t,x(:,28)-x(:,33));
+subplot(4,1,2), plot(t,x(:,28)-x(:,33),'LineWidth',1);
 hold on
-subplot(4,1,2), plot(t,x(:,29)-x(:,34));
+subplot(4,1,2), plot(t,x(:,29)-x(:,34),'LineWidth',1);
 hold on
-subplot(4,1,2), plot(t,x(:,30)-x(:,35));
+subplot(4,1,2), plot(t,x(:,30)-x(:,35),'LineWidth',1);
 grid on
 set(gca,'FontSize',20)
 axis([0 t(end) ymin2 ymax2])
@@ -189,15 +192,21 @@ gy3 = get(y3h);                                                         % Object
 y3p = get(y3h, 'Position');
 set(y3h, 'Rotation',0, 'Position',y3p, 'VerticalAlignment','middle', 'HorizontalAlignment','right')
 set(y3h, 'Rotation',0, 'Position',y3p-[0 0 0], 'VerticalAlignment','middle', 'HorizontalAlignment','right')
-subplot(4,1,4), plotHarc(t,j,V_bound(:),[],modificatorV,modificatorM);
-hold on
-subplot(4,1,4), plotHarc(t,j,V(:),[],modificatorF,modificatorJ);
+%subplot(4,1,4), plotHarc(t,j,V_bound(:),[],modificatorV,modificatorM);
+%hold on
+%subplot(4,1,4), plotHarc(t,j,V(:),[],modificatorF,modificatorJ);
+subplot(4,1,4), plot(t,V(:),'LineWidth',0.5,'color','blue');
 grid on
 h = findobj(gca,'Type','line');
-i = legend([h(10) h(21)],'$$V$$','$$V_b$$');
+%i = legend([h(10) h(21)],'$$V$$','$$V_b$$');
+i = legend([h(1)],'$$V(\phi(t,j))$$');
 set(i,'Interpreter','latex','FontSize',35)
-xlabel('$t,j$','Interpreter','latex','FontSize',40)
+xlabel('$t$ (sec)','Interpreter','latex','FontSize',40)
 set(gca,'FontSize',20)
+axes('Position',[.3 .15 .15 .15])
+box on
+plot(t(1:368),V(1:368),'LineWidth',0.5,'color','blue')
+axis([0 t(368) 0 600])
 
 figure(3) % position
 clf
@@ -212,7 +221,7 @@ hold on
 plot(t,x(:,46));
 grid on
 ylabel('$\tilde{\tau}_i$','Interpreter','latex','FontSize',20)
-xlabel('$t$','Interpreter','latex','FontSize',20)
+xlabel('$t$ (sec)','Interpreter','latex','FontSize',20)
 
 %%
 
@@ -239,6 +248,7 @@ hold on
 subplot(3,1,1), plot(t,x(:,4)-x(:,5),'LineWidth',1);
 grid on
 ylabel('$e_i - e_k$','Interpreter','latex','FontSize',40)
+xlabel('$t$','Interpreter','latex','FontSize',40)
 grid on
 set(gca,'FontSize',20)
 axis([0 t(end) ymin1 ymax1])
@@ -281,6 +291,19 @@ clf
 plotHarc(t,j,V_bound(:),[],modificatorV,modificatorM);
 hold on
 plotHarc(t,j,V(:),[],modificatorF,modificatorJ);
+grid on
+h = findobj(gca,'Type','line');
+i = legend([h(10) h(21)],'$$V$$','$$V_b$$');
+set(i,'Interpreter','latex','FontSize',35)
+xlabel('$t,j$','Interpreter','latex','FontSize',40)
+set(gca,'FontSize',20)
+
+%%
+
+figure(6)
+clf
+
+plot(t,V(:),'LineWidth',1);
 grid on
 h = findobj(gca,'Type','line');
 i = legend([h(10) h(21)],'$$V$$','$$V_b$$');

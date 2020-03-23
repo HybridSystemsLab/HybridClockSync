@@ -103,21 +103,10 @@ end
 
 k1 = 2*max(a_2)*norm(Bf2);
 
-k2_rge = [0,-min(lambda_min)]
+k2_rge = [1.0001,-min(lambda_min)];
 
 epsilon1 = min(roots([k1 -2*beta2  -k1]));
 epsilon2 = max(roots([k1 -2*beta2  -k1]));
-
-% if (epsilon1 < 0) && (epsilon2 < 0)    
-%     epsilon1 = eps;
-%     epsilon2 = eps;
-% end
-% 
-% 
-% if eps > 0
-%     epsilon1 = eps;
-%     epsilon2 = eps;
-% end
 
 a2bar = max([1 max(eig(P1))]);
 
@@ -128,17 +117,19 @@ kbar = max([kbar1 kbar2]);
 a1_til = a2bar/2;
 a2_til = a2bar/2;
 
-k2 = max(k2_rge);
+k2 = min(k2_rge);
+
+k2bar = min([1,k2]);
 
 display('Condition:')
-exp(T2*kbar/a2)*(1 - k2/a2)
+exp(T2*kbar/a2)*(1 - k2bar/a2)
 
 display('T2 <')
-(log(1/(1 - k2/a2)))*a2/kbar
+(log(1/(1 - k2bar/a2)))*a2/kbar
 
 display('Condition alt:')
-exp(T2*kbar/a2)*(1 - k2/a2_alt)
+exp(T2*kbar/a2)*(1 - k2bar/a2_alt)
 
-if exp(T2*kbar/a2)*(1 - k2/a2) > 1    
-    error('exp(T2*kbar)*(1 - k2/a2) > 1')
+if exp(T2*kbar/a2)*(1 - k2bar/a2) > 1    
+    error('exp(T2*kbar)*(1 - k2bar/a2) > 1')
 end
